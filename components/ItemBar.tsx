@@ -5,15 +5,17 @@ import ItemList from './ItemList';
 interface Item {
   id: string;
   name: string;
+  done: boolean;
 }
 
 interface Props {
   items: Item[];
   addItem: (name: string) => void;
   deleteItem: (id: string) => void;
+  toggleDone: (id: string) => void;
 }
 
-export default function Itembar({ items, addItem, deleteItem }: Props) {
+export default function Itembar({ items, addItem, deleteItem, toggleDone }: Props) {
   const [input, setInput] = useState('');
 
   const handleAdd = () => {
@@ -37,7 +39,7 @@ export default function Itembar({ items, addItem, deleteItem }: Props) {
           onPress={handleAdd} />
       </View>
 
-      <ItemList items={items} onDelete={deleteItem} />
+      <ItemList items={items} onDelete={deleteItem} onToggle={toggleDone} />
     </View>
   );
 }
