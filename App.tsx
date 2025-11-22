@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 interface Item {
   id: string;
   name: string;
+  done: boolean;
 }
 
 export default function App() {
@@ -26,13 +27,26 @@ export default function App() {
 
   // Functions passed down
   const addItem = (name: string) => {
-    setItems(prev => [...prev, { id: Date.now().toString(), name }]);
+    setItems(prev => [
+      ...prev,
+      { id: Date.now().toString(), name, done: false }
+    ]);
   };
+
 
   // Delete items
   const deleteItem = (id: string) => {
     setItems(prev => prev.filter(item => item.id !== id));
   };
+
+  const toggleDone = (id: string) => {
+  setItems(prev =>
+    prev.map(item =>
+      item.id === id ? { ...item, done: !item.done } : item
+    )
+  );
+};
+
 
   return (
     <View style={styles.container}>
@@ -42,6 +56,7 @@ export default function App() {
         items={items}
         addItem={addItem}
         deleteItem={deleteItem}
+        toggleDone={toggleDone}
       />
     </View>
   );
